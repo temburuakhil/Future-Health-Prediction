@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Prediction</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Roboto', sans-serif; background-color: #f9f9f9; color: #333; margin: 0; padding: 20px; }
+        h1 { text-align: center; color: #007BFF; }
+        form { max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); }
+        label { display: block; margin-bottom: 8px; font-weight: 700; }
+        input[type="number"], input[type="text"], select { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; transition: border-color 0.3s; }
+        button { background-color: #007BFF; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s; }
+        button:hover { background-color: #0056b3; }
+        h2 { color: #333; margin-top: 40px; }
+        .risk-box { background-color: #f4faff; border: 1px solid #cde4ff; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1); }
+        .risk-box h3 { margin: 0 0 10px; color: #007BFF; }
+        .risk-box ul { list-style-type: none; padding: 0; }
+        .risk-box li { margin-bottom: 8px; }
+        .risk-box li strong { display: inline-block; width: 160px; color: #555; }
+    </style>
+</head>
+<body>
+    <h1>Health Prediction</h1>
+    <form action="/" method="POST">
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required>
+        
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender" required>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+        </select>
+        
+        <label for="bmi">BMI:</label>
+        <input type="number" id="bmi" name="bmi" required>
+        
+        <label for="bp">Blood Pressure:</label>
+        <input type="text" id="bp" name="bp" required>
+        
+        <label for="cholesterol">Cholesterol Level:</label>
+        <input type="number" id="cholesterol" name="cholesterol" required>
+        
+        <label for="cigarette">Cigarette Smoking:</label>
+        <select id="cigarette" name="cigarette" required>
+            <option value="none">None</option>
+            <option value="occasional">Occasional</option>
+            <option value="regular">Regular</option>
+        </select>
+        
+        <label for="diabetes">Diabetes:</label>
+        <select id="diabetes" name="diabetes" required>
+            <option value="no">No</option>
+            <option value="yes">Yes</option>
+        </select>
+        
+        <label for="alcohol">Alcohol Consumption:</label>
+        <select id="alcohol" name="alcohol" required>
+            <option value="none">None</option>
+            <option value="occasional">Occasional</option>
+            <option value="regular">Regular</option>
+        </select>
+        
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if risk %}
+        <h2>Prediction Results</h2>
+        {% for disease, risk_percentage in risk.items() %}
+            <div class="risk-box">
+                <h3>Risk of {{ disease }}: {{ risk_percentage }}</h3>
+                <ul>
+                    <li><strong>Preventive Measures:</strong> {{ preventive_measures[disease] }}</li>
+                    <li><strong>Recommended Diet:</strong> {{ diet[disease] }}</li>
+                    <li><strong>Exercises:</strong> {{ exercises[disease] }}</li>
+                    <li><strong>Lab Tests:</strong> {{ lab_tests[disease] }}</li>
+                </ul>
+            </div>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,35 @@
+# Import necessary libraries
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+
+# Generate some dummy data for training
+X = np.random.rand(100, 8)  # 100 samples, 8 features (e.g., Age, BMI, BP, etc.)
+y = np.random.randint(0, 2, (100, 5))  # 100 samples, 5 binary labels (for 5 diseases)
+
+# Split data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Normalize the data
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Build the multi-label ANN model
+model = Sequential()
+model.add(Dense(units=16, activation='relu', input_dim=X_train.shape[1]))  # Input layer and first hidden layer
+model.add(Dense(units=8, activation='relu'))  # Second hidden layer
+model.add(Dense(units=5, activation='sigmoid'))  # Output layer for 5 diseases
+
+# Compile the model
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+
+# Train the model (just for demonstration purposes)
+model.fit(X_train, y_train, epochs=10, batch_size=32)
+
+# Save the model weights to a .h5 file
+model.save_weights('your_model_weights.h5')
+
+print("Model weights saved successfully.")
